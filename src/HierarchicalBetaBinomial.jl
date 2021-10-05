@@ -1,5 +1,9 @@
-module HierarchicalBetaBinomial
+#module HierarchicalBetaBinomial
 
-# Write your package code here.
+import Distributions: beta, binomial
+import LinearAlgebra
 
-end
+include("./src/types.jl")
+include("./src/MH.jl")
+
+#end

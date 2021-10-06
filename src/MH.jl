@@ -69,3 +69,13 @@ function logposterior(prior::Prior, μ, σ, x, n)
     return l+p
 end
 
+function alpha_and_beta(μ, ϕ)
+    α = μ * (1 - ϕ)/ϕ
+    β = (1 - μ) * (1 - ϕ)/ϕ
+    return (α = α, β = β)
+end
+
+function mu_and_phi(α, β)
+    μ = α / (α + β)
+    ϕ = 1 / (1 + α + β)
+end

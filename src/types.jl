@@ -10,12 +10,12 @@ mutable struct Data{T<:Integer}
     end
 end
 
-mutable struct Prior{T<:AbstractFloat}
+mutable struct Priors{T<:AbstractFloat}
     μ::Beta
     σ::Beta
 end
 
-struct Posterior{T<:AbstractFloat}
+struct Posteriors{T<:AbstractFloat}
     μ::Vector{T}
     σ::Vector{T}
     θ::Matrix{T}

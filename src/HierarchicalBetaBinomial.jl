@@ -1,6 +1,6 @@
 #module HierarchicalBetaBinomial
 
-import Distributions: beta, binomial
+import Distributions: Beta, Binomial, Normal
 import LinearAlgebra
 
 include("./src/types.jl")

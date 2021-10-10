@@ -9,7 +9,8 @@ function simulate(b::Beta, n::Vector{<:Integer})
         θ[i] = rand(b)
         x[i] = rand(Binomial(n[i], θ[i]))
     end
-    return (x=x, n=n, θ=θ)
+    return (x = x, n = n, θ = θ)
 end
 
-sim = simulate(Beta(0.5, 0.5), [10, 20, 15, 12, 18])
+n   = rand(1:100, 100)
+sim = simulate(Beta(10, 30), n)

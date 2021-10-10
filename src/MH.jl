@@ -1,15 +1,15 @@
 
-function MH(data::Data, prior::Prior, candidate::Vector{<:Normal}, draws = 1_000)
+function MH(data::Data, prior::Prior, candiate::Candidate, draws = 1_000)
 
     x, n = data.x, data.n
     J = length(x)
 
     # Prepare posterior
-    post = Posterior(zeros(draws), zeros(draws), zeros(draws, N), zeros(draws, 2))
+    post = Chain(zeros(draws), zeros(draws), zeros(draws, N), zeros(draws, 2))
 
-    # Starting values
-    post.μ[1] = 0.5
-    post.σ[1] = 0.5
+    # Starting values (random in the unit area)
+    post.μ[1] = rand()
+    post.σ[1] = rand()
 
     post.acceptance[1, :] = 1
 
@@ -57,12 +57,17 @@ function MH(data::Data, prior::Prior, candidate::Vector{<:Normal}, draws = 1_000
     return post
 end
 
-logprior(prior::Beta, value::AbstractFloat) = (prior.α - 1)*log(value) + (prior.β - 1)*log(1 - value)
+function logprior(prior::Beta, value::AbstractFloat)
+    μ, ϕ = mu_and_phi(prior.a, prior.b)
+    (μ - 1)*log(value) + (μ - 1)*log(1 - value)
+end
+
 function loglikelihood(μ, σ, x, n)
     l = logpdf(Beta(μ * (1 - σ)/σ + x), (1 - μ)*(1 - σ)/σ + n - x)
     l = l - logpdf(Beta(μ * (1 - σ)/σ, (1 - μ)*(1 - σ)/σ)) * length(x)
     return l
 end
+
 function logposterior(prior::Prior, μ, σ, x, n)
     l = loglikelihood(μ, σ, x, n)
     p = logprior(prior.μ, μ) + logprior(prior.σ, σ)

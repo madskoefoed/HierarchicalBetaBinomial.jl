@@ -10,12 +10,17 @@ mutable struct Data{T<:Integer}
     end
 end
 
-mutable struct Priors{T<:AbstractFloat}
+mutable struct Prior
     μ::Beta
     σ::Beta
 end
 
-struct Posteriors{T<:AbstractFloat}
+mutable struct Candidate
+    μ::Normal
+    σ::Normal
+end
+
+struct Chain{T<:AbstractFloat}
     μ::Vector{T}
     σ::Vector{T}
     θ::Matrix{T}
